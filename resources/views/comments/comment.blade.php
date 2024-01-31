@@ -12,13 +12,20 @@
         </div>
 
         {{-- messaggio --}}
-        {{-- <div class="w-1/3 bg-slate-100 border rounded-lg pl-2 py-1 sm:py-2 leading-relaxed"> --}}
         <div class="w-1/3 bg-slate-800 text-white border rounded-lg pl-2 py-1 sm:py-2 leading-relaxed">
-            <p class="text-md">{!! nl2br($comment->body) !!}</p> 
+            <p class="text-md">{!! nl2br($comment->body) !!}</p>
+            @can('delete', $comment)
+                <div class="flex justify-end mr-2">
+                    @include ('comments.deleteform', ['post' => $post, 'comment' => $comment])
+                </div>
+            @endcan
         </div>
 
         @if (Auth::check())
             @include ('comments.form', ['parentId' => $comment->id])
+            {{-- @can('delete', $comment)
+                @include ('comments.deleteform', ['post' => $post, 'comment' => $comment])
+            @endcan --}}
         @endif
 
         <div class="ml-10">
